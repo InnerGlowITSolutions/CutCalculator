@@ -15,7 +15,7 @@
 @class DBModel;
 @interface CalculationViewController : UIViewController<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
-    UILabel *lblType,*lblDia,*lblShapeOfCut,*lblWorkMaterial,*lblFluterCnt,*lblDepthOfCut,*lblRev,*lblCuttingSpeed;
+    UILabel *lblType,*lblDia,*lblShapeOfCut,*lblWorkMaterial,*lblFluterCnt,*lblDepthOfCut,*lblRev,*lblCuttingSpeed,*productNolbl;
     
     UITextField *typeTxtFld,*diaTxtFld,*workMaterialTxtFld,*fluterCntTxtFld;
     
@@ -46,16 +46,16 @@
     NSArray *finalSliderValuesArr;
     
     DBModel *dbAccess;
+   
+    NSArray *txtFldArr,*lblArr;
 }
 
+@property(nonatomic,strong)    NSArray *txtFldArr,*lblArr;
 @property(nonatomic,strong)NSMutableArray *tableArray;
 @property(nonatomic,strong)UISearchBar *searchBar;
 @property(nonatomic,strong)UITableView *dropDownTblView;
 @property(nonatomic,strong)UILabel *lblType,*lblDia,*lblShapeOfCut,*lblWorkMaterial,*lblFluterCnt,*lblDepthOfCut,*lblRev,*lblCuttingSpeed;
 @property(nonatomic,strong)UITextField *typeTxtFld,*diaTxtFld,*workMaterialTxtFld,*fluterCntTxtFld;
 @property(strong,nonatomic)    UIImageView *imgViewSide,*imgViewSlot;
-
-
-
 
 @end

@@ -35,6 +35,7 @@
 		18B671A518DC496C0059CDFF /* RedPice.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B671A318DC496C0059CDFF /* RedPice.png */; };
 		18B671A718DC5E5F0059CDFF /* cutcalcdb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 18B671A618DC5E5F0059CDFF /* cutcalcdb.sqlite */; };
 		18B671AF18DC69E60059CDFF /* box.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B671AE18DC69E60059CDFF /* box.png */; };
+		18BE72E318E29C92002CFE72 /* searchProduct.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BE72E218E29C92002CFE72 /* searchProduct.png */; };
 		18BF761318DA9BD700462EDF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BF761218DA9BD700462EDF /* ViewController.xib */; };
 		18BF761518DA9E6C00462EDF /* ViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BF761418DA9E6C00462EDF /* ViewControllerPad.xib */; };
 		18BF761918DAA2C600462EDF /* CalculationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF761718DAA2C600462EDF /* CalculationViewController.m */; };
@@ -86,6 +87,7 @@
 		18B671A318DC496C0059CDFF /* RedPice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RedPice.png; sourceTree = "<group>"; };
 		18B671A618DC5E5F0059CDFF /* cutcalcdb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = cutcalcdb.sqlite; sourceTree = "<group>"; };
 		18B671AE18DC69E60059CDFF /* box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = box.png; sourceTree = "<group>"; };
+		18BE72E218E29C92002CFE72 /* searchProduct.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchProduct.png; sourceTree = "<group>"; };
 		18BF761218DA9BD700462EDF /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		18BF761418DA9E6C00462EDF /* ViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerPad.xib; sourceTree = "<group>"; };
 		18BF761618DAA2C600462EDF /* CalculationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculationViewController.h; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		18BF761B18DAF62E00462EDF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18BE72E218E29C92002CFE72 /* searchProduct.png */,
 				1800B02418E18CAD005D3B0F /* Thumb.png */,
 				1800B02C18E1AAAB005D3B0F /* Slider11.png */,
 				18B671AE18DC69E60059CDFF /* box.png */,
@@ -303,6 +306,7 @@
 				18B671A718DC5E5F0059CDFF /* cutcalcdb.sqlite in Resources */,
 				18B6719618DC41ED0059CDFF /* SideH.png in Resources */,
 				18BF761518DA9E6C00462EDF /* ViewControllerPad.xib in Resources */,
+				18BE72E318E29C92002CFE72 /* searchProduct.png in Resources */,
 				18B6719918DC41ED0059CDFF /* SlotG.png in Resources */,
 				18B6719818DC41ED0059CDFF /* SideG.png in Resources */,
 				18B671A418DC496C0059CDFF /* GreyPice.png in Resources */,

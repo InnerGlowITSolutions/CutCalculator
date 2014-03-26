@@ -15,6 +15,8 @@
 -(void)settingFramesForUI;
 -(void)depthOfCutSlider;
 -(void)cuttingSpeedSlider;
+-(void)unHideobjects;
+
 @end
 
 @implementation CalculationViewController
@@ -25,7 +27,7 @@
 @synthesize lblType,lblDia,lblShapeOfCut,lblWorkMaterial,lblFluterCnt,lblDepthOfCut,lblRev,lblCuttingSpeed;
 @synthesize typeTxtFld,diaTxtFld,workMaterialTxtFld,fluterCntTxtFld;
 @synthesize imgViewSide,imgViewSlot;
-
+@synthesize lblArr,txtFldArr;
 
 /*- (id)init
 {
@@ -56,22 +58,18 @@
 }
 */
 
--(BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
--(void)languageSel{
-    
-}
+
+#pragma mark- viewdidload
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     dbAccess=[[DBModel alloc]init];
-   
+    
     UINavigationBar *navBar=[[UINavigationBar alloc]init];
-    [navBar setFrame:CGRectMake(0,0,CGRectGetWidth(self.view.frame),44)];
+    [navBar setFrame:CGRectMake(0,0,CGRectGetWidth(self.view.frame),40)];
     [navBar setBackgroundColor:[UIColor blueColor]];
     
     UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Language" style:UIBarButtonItemStylePlain target:self action:@selector(languageSel)];
@@ -80,10 +78,8 @@
     [navItem setRightBarButtonItem:doneItem animated:YES];
     [navBar setItems:[NSArray arrayWithObject:navItem] animated:YES];
     [self.view addSubview:navBar];
-
    
     searchcheck=0;
-    
     tableArray=[[NSMutableArray alloc]init];
 
     //Constant array
@@ -122,10 +118,10 @@
 
     modeLbl=[[UILabel alloc]init];
 
-    
+    productNolbl=[[UILabel alloc]init];
 
-    NSArray *lblArr=[NSArray arrayWithObjects:lblType,lblDia,lblShapeOfCut,lblWorkMaterial,lblFluterCnt,lblDepthOfCut,lblRev,lblCuttingSpeed,depthOfCutSliderLbl,revSliderLbl,cutSpeedSliderLbl,zeroLblDOC,zeroLblRev,zeroLblCS,maxLblDOC,maxLblRev,maxLblCS,modeLbl, nil];
-    NSArray *lblNamesArr=[NSArray arrayWithObjects:@"Type",@"Diameter",@"Shape of cut",@"Work Material",@"Fluter Count",@"Depth Of Cut",@"Rev (min)",@"Cutting Speed (mm/min)",@"0",@"0",@"0",@"0",@"0",@"0",@"max",@"max",@"max",@"Optimum mode", nil];
+    lblArr=[NSArray arrayWithObjects:lblType,lblDia,lblShapeOfCut,lblWorkMaterial,lblFluterCnt,lblDepthOfCut,lblRev,lblCuttingSpeed,depthOfCutSliderLbl,revSliderLbl,cutSpeedSliderLbl,zeroLblDOC,zeroLblRev,zeroLblCS,maxLblDOC,maxLblRev,maxLblCS,modeLbl,productNolbl, nil];
+    NSArray *lblNamesArr=[NSArray arrayWithObjects:@"Type",@"Diameter",@"Shape of cut",@"Work Material",@"Fluter Count",@"Depth Of Cut",@"Rev (min)",@"Cutting Speed (mm/min)",@"0",@"0",@"0",@"0",@"0",@"0",@"max",@"max",@"max",@"Ineffective Mode",@"Product No.", nil];
     for (int i=0; i<lblArr.count; i++)
     {
         [self lblCreation:[lblNamesArr objectAtIndex:i] label:[lblArr objectAtIndex:i]];
@@ -137,7 +133,7 @@
     workMaterialTxtFld=[[UITextField alloc]init];
     fluterCntTxtFld=[[UITextField alloc]init];
 
-    NSArray *txtFldArr=[NSArray arrayWithObjects:typeTxtFld,diaTxtFld,workMaterialTxtFld,fluterCntTxtFld, nil];
+    txtFldArr=[NSArray arrayWithObjects:typeTxtFld,diaTxtFld,workMaterialTxtFld,fluterCntTxtFld, nil];
     NSArray *txtFldNamesArr=[NSArray arrayWithObjects:@"Mill Type",@"Diameter",@"Work Material",@"Fluter Count", nil];
     for (int i=0; i<txtFldArr.count; i++)
     {
@@ -147,10 +143,7 @@
     //UIslider
     depthOfCutSlider=[[UISlider alloc]init];
     depthOfCutSlider.minimumValue=0;
-    //depthOfCutSlider.maximumValue=1;
     
-    //depthOfCutSlider.maximumTrackTintColor=[UIColor redColor];
-    //depthOfCutSlider.minimumTrackTintColor=[UIColor greenColor];
     
     UIImage *bgImage = [UIImage imageNamed:@"Slider11.png"];
     depthOfCutSlider.backgroundColor = [UIColor colorWithPatternImage:bgImage];
@@ -190,7 +183,6 @@
     revSlider.userInteractionEnabled=NO;
     [self.view addSubview:revSlider];
     
-    
     cuttingSpeedSlider=[[UISlider alloc]init];
     cuttingSpeedSlider.minimumValue=0;
     //cuttingSpeedSlider.maximumValue=2000;
@@ -219,6 +211,15 @@
     imgViewSlot.image = [UIImage imageNamed:@"SlotB.png"];
     [self.view addSubview:imgViewSlot];
     imgViewSlot.userInteractionEnabled=YES;
+    
+    //hide images and slider
+    depthOfCutSlider.hidden=TRUE;
+    cuttingSpeedSlider.hidden=TRUE;
+    revSlider.hidden=TRUE;
+
+    imgViewSlot.hidden=TRUE;
+    imgViewSide.hidden=TRUE;
+
 
     //uitableview
     dropDownTblView = [[UITableView alloc] initWithFrame:
@@ -235,17 +236,39 @@
     searchBar=[[UISearchBar alloc]init];
     searchBar.delegate=self;
 	[searchBar setTintColor:[UIColor blackColor]];
+    [self.searchBar setSearchFieldBackgroundImage:[UIImage imageNamed:@"searchProduct.png"] forState:UIControlStateNormal];
 	[self.view addSubview:searchBar];
+    searchBar.barTintColor = [UIColor whiteColor];
 
+    [searchBar setTranslucent:NO];
+    [self.searchBar setImage:[UIImage imageNamed:@"box.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    [self.searchBar setSearchTextPositionAdjustment:UIOffsetMake(-12, 0)];
+
+    //[self.searchBar setBackgroundImage:[UIImage imageNamed:@"searchProduct.png"]];
     //frame setting for view objects
     [self settingFramesForUI];
     depthOfCutSliderLbl.font = [UIFont fontWithName:@"Helvetica Neue" size:10];
     revSliderLbl.font = [UIFont fontWithName:@"Helvetica Neue" size:10];
     cutSpeedSliderLbl.font = [UIFont fontWithName:@"Helvetica Neue" size:10];
     modeLbl.font = [UIFont fontWithName:@"Helvetica Neue" size:10];
-    modeLbl.textColor=[UIColor greenColor];
+    modeLbl.textColor=[UIColor grayColor];
 }
 
+-(void)unHideobjects{
+    //hide images and slider
+    depthOfCutSlider.hidden=FALSE;
+    cuttingSpeedSlider.hidden=FALSE;
+    revSlider.hidden=FALSE;
+    imgViewSlot.hidden=FALSE;
+    imgViewSide.hidden=FALSE;
+    
+    for (UILabel *lbl in lblArr) {
+        lbl.hidden=FALSE;
+    }
+    for (UITextField *txtfld in txtFldArr) {
+        txtfld.hidden=FALSE;
+    }
+}
 
 #pragma mark- slider
 -(void)depthOfCutSlider{
@@ -266,6 +289,20 @@
     [cuttingSpeedSlider setValue:revCal*speedCal animated:YES];
     revSliderLbl.text=[NSString stringWithFormat:@"%.1f",revSlider.value];
     cutSpeedSliderLbl.text=[NSString stringWithFormat:@"%.1f",cuttingSpeedSlider.value];
+    
+    
+    if (revSlider.value>=(revSlider.maximumValue/3)*2) {
+        modeLbl.text=@"Dangerous mode";
+        modeLbl.textColor=[UIColor redColor];
+    }
+    else if (revSlider.value<(revSlider.maximumValue/3)){
+        modeLbl.text=@"Ineffective mode";
+        modeLbl.textColor=[UIColor grayColor];
+    }
+    else{
+        modeLbl.text=@"Optimum mode";
+        modeLbl.textColor=[UIColor greenColor];
+    }
 }
 
 -(void)cuttingSpeedSlider
@@ -281,6 +318,19 @@
      [revSlider setValue:revCal*speedCal animated:YES];
      revSliderLbl.text=[NSString stringWithFormat:@"%.1f",revSlider.value];
      cutSpeedSliderLbl.text=[NSString stringWithFormat:@"%.1f",cuttingSpeedSlider.value];
+    
+    if (cuttingSpeedSlider.value>=(cuttingSpeedSlider.maximumValue/3)*2) {
+        modeLbl.text=@"Dangerous mode";
+        modeLbl.textColor=[UIColor redColor];
+    }
+    else if (cuttingSpeedSlider.value<(cuttingSpeedSlider.maximumValue/3)){
+        modeLbl.text=@"Ineffective mode";
+        modeLbl.textColor=[UIColor grayColor];
+    }
+    else{
+        modeLbl.text=@"Optimum mode";
+        modeLbl.textColor=[UIColor greenColor];
+    }
 }
 
 #pragma mark- lblCreation
@@ -300,6 +350,14 @@
     fromLabel.textColor = [UIColor blackColor];
     fromLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:fromLabel];
+    
+    if ([lblText isEqualToString:@"Type"]||[lblText isEqualToString:@"Product No."]) {
+        fromLabel.hidden=FALSE;
+    }
+    else
+    {
+        fromLabel.hidden=TRUE;
+    }
 }
 
 #pragma mark- txtFldCreation
@@ -332,14 +390,25 @@
     
     fromtxtFld.delegate = self;
     [self.view addSubview:fromtxtFld];
+    
+    if ([txtFldText isEqualToString:@"Mill Type"]) {
+        fromtxtFld.hidden=FALSE;
+    }
+    else{
+        fromtxtFld.hidden=TRUE;
+    }
 }
 
 #pragma mark- settingFramesForUI
 
 -(void)settingFramesForUI
 {
+    //uisearchbar
+    searchBar.frame=CGRectMake(120, 85, 180, 30);
+    
     //UIlabel frames
-    lblType.frame=CGRectMake(10, 85, 42, 30);
+    productNolbl.frame=CGRectMake(10, 85, 100, 30);
+    lblType.frame=CGRectMake(10, 48, 42, 30);
     lblDia.frame=CGRectMake(10, 130, 100, 30);
     lblShapeOfCut.frame=CGRectMake(10, 175, 150, 30);
     lblWorkMaterial.frame=CGRectMake(10, 265, 100, 30);
@@ -369,7 +438,7 @@
     maxLblCS.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblCuttingSpeed.frame.origin.y+58, 50, 15);
 
     //UItextfield frames
-    typeTxtFld.frame=CGRectMake(130, 85, 160, 30);
+    typeTxtFld.frame=CGRectMake(130, 48, 160, 30);
     diaTxtFld.frame=CGRectMake(130, 130, 160, 30);
     workMaterialTxtFld.frame=CGRectMake(130, 265, 160, 30);
     fluterCntTxtFld.frame=CGRectMake(130, 310, 100, 30);
@@ -377,9 +446,6 @@
     //Imageview frames
     imgViewSide.frame=CGRectMake(60, 205,  50, 50);
     imgViewSlot.frame=CGRectMake(170, 205, 50, 50);
-    
-    //uisearchbar
-    searchBar.frame=CGRectMake(0, 45, 320, 35);
 }
 
 #pragma mark- UITableview Delegate
@@ -417,7 +483,7 @@
         cell.textLabel.numberOfLines = 2;
     }
     //cell.textLabel.adjustsFontSizeToFitWidth=YES;
-    UIFont *myFont = [ UIFont fontWithName: @"Arial" size: 10.0 ];
+    UIFont *myFont = [ UIFont fontWithName: @"Arial" size: 12.0 ];
     cell.textLabel.font  = myFont;
     return cell;
 }
@@ -427,6 +493,7 @@
     switch (selectedTextField) {
         case 1:{
             typeTxtFld.text=strSelected;
+            [self unHideobjects];
             if ([typeTxtFld.text isEqualToString:@"2 Flutes Long Neck Short Flute End Mill"]) {
                 workMaterialArr=[NSArray arrayWithObjects:@"Carbon Steel, Alloy Steel – 750N/mm2",@"Carbon Steel, Alloy Steel – 30 HRC",@"Pre-hardened Steel, Pre-heated Steel – 40 HRC", nil];
                 millsID=@"1";
@@ -500,7 +567,7 @@
         {
             workMaterialTxtFld.text=strSelected;
             materialID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
-            diaArr=[dbAccess fetchDiaArr:millsID materialID:materialID mtypeID:mTypeID];
+            //diaArr=[dbAccess fetchDiaArr:millsID materialID:materialID mtypeID:mTypeID];
             break;
         }
         case 3:
@@ -531,7 +598,9 @@
             
             revSlider.userInteractionEnabled=YES;
             cuttingSpeedSlider.userInteractionEnabled=YES;
-            depthOfCutSlider.userInteractionEnabled=YES;
+            
+            modeLbl.text=@"Optimum mode";
+            modeLbl.textColor=[UIColor greenColor];
             break;
         }
         case 4:
@@ -554,6 +623,9 @@
                 
                 revSlider.userInteractionEnabled=YES;
                 cuttingSpeedSlider.userInteractionEnabled=YES;
+                
+                modeLbl.text=@"Optimum mode";
+                modeLbl.textColor=[UIColor greenColor];
             }
             break;
         }
@@ -563,10 +635,16 @@
     if (searchcheck==1)
     {
         searchBar.text=strSelected;
+        [self unHideobjects];
+
         dropDownTblView.hidden=YES;
         searchcheck=0;
+        [searchBar resignFirstResponder];
+
     }
     dropDownTblView.hidden=YES;
+    searchBar.hidden=FALSE;
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -576,6 +654,15 @@
 
 #pragma mark -
 #pragma mark SearchBar_Delegates
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)search_Bar{
+    searchcheck=1;
+    dropDownTblView.hidden=FALSE;
+    dropDownTblView.frame=CGRectMake(searchBar.frame.origin.x+5, searchBar.frame.origin.y+37, searchBar.frame.size.width-10,200);
+	tableArray=[millTypeArr mutableCopy];
+    [dropDownTblView reloadData];
+    return  YES;
+}
+
 -(void)searchBarSearchButtonClicked:(UISearchBar *)search_Bar
 {
     NSLog(@"searchBarSearchButtonClicked");
@@ -583,15 +670,12 @@
 }
 - (void)searchBar:(UISearchBar *)search_Bar textDidChange:(NSString *)searchText
 {
-	searchcheck=1;
-	tableArray=[millTypeArr mutableCopy];
     [dropDownTblView reloadData];
-    dropDownTblView.hidden=FALSE;
-    dropDownTblView.frame=CGRectMake(searchBar.frame.origin.x+5, searchBar.frame.origin.y+37, searchBar.frame.size.width-10,200);
 	str_searchText=searchText;
 	if([str_searchText isEqualToString:@""])
 	{
 		[search_Bar resignFirstResponder];
+        tableArray=[millTypeArr copy];
 		[dropDownTblView reloadData];
 	}
     else
@@ -620,6 +704,7 @@
     //[tableArray removeAllObjects];
     if(textField==typeTxtFld){
         selectedTextField=1;
+        searchBar.hidden=TRUE;
         tableArray=[millTypeArr mutableCopy];
         [dropDownTblView reloadData];
         dropDownTblView.hidden=FALSE;
@@ -627,6 +712,7 @@
         return NO;
     }
     if(textField==diaTxtFld){
+        searchBar.hidden=FALSE;
         selectedTextField=4;
         tableArray=[diaArr mutableCopy];
         [dropDownTblView reloadData];
@@ -653,13 +739,17 @@
         dropDownTblView.frame=CGRectMake(textField.frame.origin.x, textField.frame.origin.y+30, textField.frame.size.width,100);
         return NO;
     }
+    searchBar.hidden=FALSE;
+
     return YES;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if(textField==typeTxtFld)
+    if(textField==typeTxtFld){
 		[diaTxtFld becomeFirstResponder];
+        searchBar.hidden=FALSE;
+}
     else if(textField==diaTxtFld)
 		[workMaterialTxtFld becomeFirstResponder];
     else if(textField==workMaterialTxtFld)
@@ -698,9 +788,19 @@
     [workMaterialTxtFld resignFirstResponder];
     [fluterCntTxtFld resignFirstResponder];
     dropDownTblView.hidden=TRUE;
+    searchBar.hidden=FALSE;
     [searchBar resignFirstResponder];
 
 }
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+-(void)languageSel{
+    
+}
+
 
 
 - (void)didReceiveMemoryWarning

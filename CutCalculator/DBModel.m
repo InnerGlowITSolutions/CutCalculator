@@ -92,7 +92,7 @@ sqlite3 *compiledatabase;
 {
     app_delegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
     
-    NSString *sql_str,*millsIDstr;
+    NSString *sql_str;
     
     NSLog(@"millsID %@ mtypeID %@ material %@ diameter %@ fluteCount %@",millsID,typeID,matId,dia,fCount);
    
