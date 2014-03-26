@@ -48,9 +48,11 @@
     DBModel *dbAccess;
    
     NSArray *txtFldArr,*lblArr;
+    
+    NSArray *productIDArr;
 }
 
-@property(nonatomic,strong)    NSArray *txtFldArr,*lblArr;
+@property(nonatomic,strong)    NSArray *txtFldArr,*lblArr,*productIDArr;
 @property(nonatomic,strong)NSMutableArray *tableArray;
 @property(nonatomic,strong)UISearchBar *searchBar;
 @property(nonatomic,strong)UITableView *dropDownTblView;

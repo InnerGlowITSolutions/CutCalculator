@@ -27,7 +27,7 @@
 @synthesize lblType,lblDia,lblShapeOfCut,lblWorkMaterial,lblFluterCnt,lblDepthOfCut,lblRev,lblCuttingSpeed;
 @synthesize typeTxtFld,diaTxtFld,workMaterialTxtFld,fluterCntTxtFld;
 @synthesize imgViewSide,imgViewSlot;
-@synthesize lblArr,txtFldArr;
+@synthesize lblArr,txtFldArr,productIDArr;
 
 /*- (id)init
 {
@@ -81,6 +81,12 @@
    
     searchcheck=0;
     tableArray=[[NSMutableArray alloc]init];
+    
+    //productID array
+    productIDArr=[NSArray arrayWithObjects:@"60CD",@"2DEM-",@"2HSD-",@"2HSDC-________-3xd",@"2HSDC-________-5xd",@"2MDD-",@"NCSD-",@"xCRC-",@"LGC-",@"VGC-",@"xLNSFSM-",@"xMBN-",@"xMSEM-",@"1SEM-",@"HRxT",@"HRxT_______X",@"xAABN-",@"xAAS-,xAASLS-",@"xBNM-,xLSBN-",@"xCRM-,xLSCR-",@"xSSS-",@"xHREM-",@"xSHH-",@"xLNSFBN-",@"xLNSFCR-",@"xREM-",@"xSEM-,xLSS-,xLFS-,",@"TBNM-xF",@"TSEM-xF",@"HRxT_S",@"HRxT_R",@"xWTREM",@"xWTFLF",@"xWTFEM",nil];
+    
+    NSLog(@"product count %lu",(unsigned long)productIDArr.count);
+
 
     //Constant array
     millTypeArr=[NSArray arrayWithObjects:@"2 Flutes Long Neck Short Flute End Mill",@"2 Flutes Micro Square End Mill",@"2 Flutes Micro Ball Nose End Mill",@"2 Flutes Aluminum End Mills",@"3 Flutes Aluminum End Mills",@"T-Blade cutter(tooth level)",@"T-Blade cutter (wrong tooth)",@"Corner rounding cutter",@"L-groove cutter",@"V-groove cutter",@"2 flutes drill end mill",@"Micro-diameter drill",@"High-speed drill",@"For aluminium mills",@"Extra Length mills",@"Micro diameter ball/end mill", nil];
@@ -242,7 +248,7 @@
 
     [searchBar setTranslucent:NO];
     [self.searchBar setImage:[UIImage imageNamed:@"box.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    [self.searchBar setSearchTextPositionAdjustment:UIOffsetMake(-12, 0)];
+    [self.searchBar setSearchTextPositionAdjustment:UIOffsetMake(7, 0)];
 
     //[self.searchBar setBackgroundImage:[UIImage imageNamed:@"searchProduct.png"]];
     //frame setting for view objects
@@ -267,6 +273,13 @@
     }
     for (UITextField *txtfld in txtFldArr) {
         txtfld.hidden=FALSE;
+    }
+    
+    if ([millsID isEqualToString:@"2"]) {
+        depthOfCutSlider.hidden=TRUE;
+        zeroLblDOC.hidden=TRUE;
+        maxLblDOC.hidden=TRUE;
+        depthOfCutSliderLbl.hidden=TRUE;
     }
 }
 
@@ -490,6 +503,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *strSelected=[tableArray objectAtIndex:indexPath.row];
+    
+    NSLog(@"selectedTextField %d",selectedTextField);
     switch (selectedTextField) {
         case 1:{
             typeTxtFld.text=strSelected;
@@ -525,6 +540,8 @@
             }
             else
             {
+                millsID=@"2";
+
                 workMaterialArr=[NSArray arrayWithObjects:@"Cast Iron",@"Carbon Steel, Alloy Steel – 750N/mm2",@"Carbon Steel, Alloy Steel – 30 HRC",@"Pre-hardened Steel, Pre-heated Steel – 40 HRC",@"Stainless Steel",@"Aluminum Alloy",@"Silicoaluminum Si<=10%", nil];
                 depthOfCutSlider.hidden=TRUE;
                 fluterCntTxtFld.hidden=TRUE;
@@ -575,72 +592,117 @@
             fluterCntTxtFld.text=strSelected;
             materialID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             
-            finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
-            NSLog(@"finalSliderValuesArr %@",finalSliderValuesArr);
             
-            //depthOfCutSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:2] floatValue]*2;
-            //revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]*2;
-            //cuttingSpeedSlider.maximumValue= [[finalSliderValuesArr objectAtIndex:1] floatValue]*2;
+            if (![diaTxtFld.text isEqualToString:@""]&&![typeTxtFld.text isEqualToString:@""] && ![workMaterialTxtFld.text isEqualToString:@""]){
+                finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
+                if (finalSliderValuesArr.count!=0) {
+                    NSLog(@"finalSliderValuesArr %@",finalSliderValuesArr);
+                    
+                    //depthOfCutSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:2] floatValue]*2;
+                    //revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]*2;
+                    //cuttingSpeedSlider.maximumValue= [[finalSliderValuesArr objectAtIndex:1] floatValue]*2;
+                    
+                    depthOfCutSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:2] floatValue]+([[finalSliderValuesArr objectAtIndex:2] floatValue])/2;
+                    revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
+                    cuttingSpeedSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;
+                    
+                    
+                    depthOfCutSlider.value=[[finalSliderValuesArr objectAtIndex:2] floatValue];
+                    
+                    revSlider.value=[[finalSliderValuesArr objectAtIndex:0] floatValue];
+                    cuttingSpeedSlider.value=[[finalSliderValuesArr objectAtIndex:1] floatValue];
+                    
+                    depthOfCutSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:2]];
+                    revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
+                    cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
+                    
+                    revSlider.userInteractionEnabled=YES;
+                    cuttingSpeedSlider.userInteractionEnabled=YES;
+                    
+                    modeLbl.text=@"Optimum mode";
+                    modeLbl.textColor=[UIColor greenColor];
+                }
+                else{
+                    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Invalid entry" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                    [alert show];
+                }
+                
+                
+            }
+            else{
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Please enter appropriate fields" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                [alert show];
+            }
             
-            depthOfCutSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:2] floatValue]+([[finalSliderValuesArr objectAtIndex:2] floatValue])/2;
-            revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
-            cuttingSpeedSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;
             
-            
-            depthOfCutSlider.value=[[finalSliderValuesArr objectAtIndex:2] floatValue];
-            
-            revSlider.value=[[finalSliderValuesArr objectAtIndex:0] floatValue];
-            cuttingSpeedSlider.value=[[finalSliderValuesArr objectAtIndex:1] floatValue];
-            
-            depthOfCutSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:2]];
-            revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
-            cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
-            
-            revSlider.userInteractionEnabled=YES;
-            cuttingSpeedSlider.userInteractionEnabled=YES;
-            
-            modeLbl.text=@"Optimum mode";
-            modeLbl.textColor=[UIColor greenColor];
             break;
         }
         case 4:
         {
             diaTxtFld.text=strSelected;
             materialID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
-            fluterCntArr=[dbAccess fetchFluteArr:millsID diameter:strSelected mtypeID:mTypeID material:materialID];
             
+            if (![materialID isEqualToString:@""]||[millsID isEqualToString:@""]) {
+               fluterCntArr=[dbAccess fetchFluteArr:millsID diameter:strSelected mtypeID:mTypeID material:materialID];
+                if (fluterCntArr.count==0) {
+                    fluterCntArr=[NSArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5",@"6", nil];
+                }
+            }
+            else
+            {
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"MessageO" message:@"Please enter appropriate fields" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                [alert show];
+            }
+
+            
+            
+            if (![diaTxtFld.text isEqualToString:@""]&&![typeTxtFld.text isEqualToString:@""] && ![workMaterialTxtFld.text isEqualToString:@""]){
             if (![millsID isEqualToString:@"1"]) {
-                finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
                
-                revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]*2;
-                cuttingSpeedSlider.maximumValue= [[finalSliderValuesArr objectAtIndex:1] floatValue]*2;
+                    finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
                 
-                revSlider.value=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
-                cuttingSpeedSlider.value=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;                NSLog(@"finalSliderValuesArr %@",finalSliderValuesArr);
+                if (finalSliderValuesArr.count!=0) {
+                    revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]*2;
+                    cuttingSpeedSlider.maximumValue= [[finalSliderValuesArr objectAtIndex:1] floatValue]*2;
+                    
+                    revSlider.value=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
+                    cuttingSpeedSlider.value=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;                NSLog(@"finalSliderValuesArr %@",finalSliderValuesArr);
+                    
+                    revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
+                    cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
+                    
+                    revSlider.userInteractionEnabled=YES;
+                    cuttingSpeedSlider.userInteractionEnabled=YES;
+                    
+                    modeLbl.text=@"Optimum mode";
+                    modeLbl.textColor=[UIColor greenColor];
+                }
+                else{
+                    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"MessageO" message:@"Invalid Entry" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                    [alert show];
+
+                }
+                    
                 
-                revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
-                cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
-                
-                revSlider.userInteractionEnabled=YES;
-                cuttingSpeedSlider.userInteractionEnabled=YES;
-                
-                modeLbl.text=@"Optimum mode";
-                modeLbl.textColor=[UIColor greenColor];
+                }
+            }
+            else{
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"MessageO" message:@"Please enter appropriate fields" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                [alert show];
             }
             break;
         }
         default:
             break;
     }
+   
     if (searchcheck==1)
     {
         searchBar.text=strSelected;
         [self unHideobjects];
-
         dropDownTblView.hidden=YES;
         searchcheck=0;
         [searchBar resignFirstResponder];
-
     }
     dropDownTblView.hidden=YES;
     searchBar.hidden=FALSE;
@@ -655,10 +717,11 @@
 #pragma mark -
 #pragma mark SearchBar_Delegates
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)search_Bar{
+    selectedTextField=0;
     searchcheck=1;
     dropDownTblView.hidden=FALSE;
     dropDownTblView.frame=CGRectMake(searchBar.frame.origin.x+5, searchBar.frame.origin.y+37, searchBar.frame.size.width-10,200);
-	tableArray=[millTypeArr mutableCopy];
+	tableArray=[productIDArr mutableCopy];
     [dropDownTblView reloadData];
     return  YES;
 }
@@ -675,8 +738,9 @@
 	if([str_searchText isEqualToString:@""])
 	{
 		[search_Bar resignFirstResponder];
-        tableArray=[millTypeArr copy];
+        tableArray=[productIDArr copy];
 		[dropDownTblView reloadData];
+        searchcheck=0;
 	}
     else
     {
@@ -694,7 +758,7 @@
 {
     NSLog(@"searchBarCancelButtonClicked");
     [tableArray removeAllObjects];
-    tableArray=[millTypeArr copy];
+    tableArray=[productIDArr copy];
     [dropDownTblView reloadData];
 }
 
