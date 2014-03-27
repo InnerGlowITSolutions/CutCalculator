@@ -25,21 +25,19 @@
 		18AC4D8F18E05E8F009E04C5 /* DBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AC4D8E18E05E8F009E04C5 /* DBModel.m */; };
 		18AC4D9118E05F57009E04C5 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18AC4D9018E05F57009E04C5 /* libsqlite3.0.dylib */; };
 		18B6718D18DC085D0059CDFF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B6718C18DC085D0059CDFF /* QuartzCore.framework */; };
-		18B6719418DC41ED0059CDFF /* SideB.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B6718E18DC41ED0059CDFF /* SideB.png */; };
-		18B6719518DC41ED0059CDFF /* SlotB.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B6718F18DC41ED0059CDFF /* SlotB.png */; };
-		18B6719618DC41ED0059CDFF /* SideH.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B6719018DC41ED0059CDFF /* SideH.png */; };
-		18B6719718DC41ED0059CDFF /* SlotH.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B6719118DC41ED0059CDFF /* SlotH.png */; };
-		18B6719818DC41ED0059CDFF /* SideG.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B6719218DC41ED0059CDFF /* SideG.png */; };
 		18B6719918DC41ED0059CDFF /* SlotG.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B6719318DC41ED0059CDFF /* SlotG.png */; };
-		18B671A418DC496C0059CDFF /* GreyPice.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B671A218DC496C0059CDFF /* GreyPice.png */; };
-		18B671A518DC496C0059CDFF /* RedPice.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B671A318DC496C0059CDFF /* RedPice.png */; };
 		18B671A718DC5E5F0059CDFF /* cutcalcdb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 18B671A618DC5E5F0059CDFF /* cutcalcdb.sqlite */; };
 		18B671AF18DC69E60059CDFF /* box.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B671AE18DC69E60059CDFF /* box.png */; };
-		18BE72E318E29C92002CFE72 /* searchProduct.png in Resources */ = {isa = PBXBuildFile; fileRef = 18BE72E218E29C92002CFE72 /* searchProduct.png */; };
 		18BF761318DA9BD700462EDF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BF761218DA9BD700462EDF /* ViewController.xib */; };
 		18BF761518DA9E6C00462EDF /* ViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BF761418DA9E6C00462EDF /* ViewControllerPad.xib */; };
 		18BF761918DAA2C600462EDF /* CalculationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF761718DAA2C600462EDF /* CalculationViewController.m */; };
 		18BF761A18DAA2C600462EDF /* CalculationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18BF761818DAA2C600462EDF /* CalculationViewController.xib */; };
+		18D969F818E3F2AF00CCA3C6 /* searchProduct.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D969F718E3F2AF00CCA3C6 /* searchProduct.png */; };
+		18D969FE18E3F33D00CCA3C6 /* SideB.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D969F918E3F33D00CCA3C6 /* SideB.png */; };
+		18D969FF18E3F33D00CCA3C6 /* SideG.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D969FA18E3F33D00CCA3C6 /* SideG.png */; };
+		18D96A0018E3F33D00CCA3C6 /* SideH.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D969FB18E3F33D00CCA3C6 /* SideH.png */; };
+		18D96A0118E3F33D00CCA3C6 /* SlotB.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D969FC18E3F33D00CCA3C6 /* SlotB.png */; };
+		18D96A0218E3F33D00CCA3C6 /* SlotH.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D969FD18E3F33D00CCA3C6 /* SlotH.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,22 +75,20 @@
 		18AC4D8E18E05E8F009E04C5 /* DBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBModel.m; sourceTree = "<group>"; };
 		18AC4D9018E05F57009E04C5 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		18B6718C18DC085D0059CDFF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		18B6718E18DC41ED0059CDFF /* SideB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SideB.png; sourceTree = "<group>"; };
-		18B6718F18DC41ED0059CDFF /* SlotB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlotB.png; sourceTree = "<group>"; };
-		18B6719018DC41ED0059CDFF /* SideH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SideH.png; sourceTree = "<group>"; };
-		18B6719118DC41ED0059CDFF /* SlotH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlotH.png; sourceTree = "<group>"; };
-		18B6719218DC41ED0059CDFF /* SideG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SideG.png; sourceTree = "<group>"; };
 		18B6719318DC41ED0059CDFF /* SlotG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlotG.png; sourceTree = "<group>"; };
-		18B671A218DC496C0059CDFF /* GreyPice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GreyPice.png; sourceTree = "<group>"; };
-		18B671A318DC496C0059CDFF /* RedPice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RedPice.png; sourceTree = "<group>"; };
 		18B671A618DC5E5F0059CDFF /* cutcalcdb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = cutcalcdb.sqlite; sourceTree = "<group>"; };
 		18B671AE18DC69E60059CDFF /* box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = box.png; sourceTree = "<group>"; };
-		18BE72E218E29C92002CFE72 /* searchProduct.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchProduct.png; sourceTree = "<group>"; };
 		18BF761218DA9BD700462EDF /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		18BF761418DA9E6C00462EDF /* ViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerPad.xib; sourceTree = "<group>"; };
 		18BF761618DAA2C600462EDF /* CalculationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculationViewController.h; sourceTree = "<group>"; };
 		18BF761718DAA2C600462EDF /* CalculationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculationViewController.m; sourceTree = "<group>"; };
 		18BF761818DAA2C600462EDF /* CalculationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalculationViewController.xib; sourceTree = "<group>"; };
+		18D969F718E3F2AF00CCA3C6 /* searchProduct.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchProduct.png; sourceTree = "<group>"; };
+		18D969F918E3F33D00CCA3C6 /* SideB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SideB.png; sourceTree = "<group>"; };
+		18D969FA18E3F33D00CCA3C6 /* SideG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SideG.png; sourceTree = "<group>"; };
+		18D969FB18E3F33D00CCA3C6 /* SideH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SideH.png; sourceTree = "<group>"; };
+		18D969FC18E3F33D00CCA3C6 /* SlotB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlotB.png; sourceTree = "<group>"; };
+		18D969FD18E3F33D00CCA3C6 /* SlotH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlotH.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,18 +202,16 @@
 		18BF761B18DAF62E00462EDF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				18BE72E218E29C92002CFE72 /* searchProduct.png */,
+				18D969F718E3F2AF00CCA3C6 /* searchProduct.png */,
 				1800B02418E18CAD005D3B0F /* Thumb.png */,
 				1800B02C18E1AAAB005D3B0F /* Slider11.png */,
 				18B671AE18DC69E60059CDFF /* box.png */,
 				18B671A618DC5E5F0059CDFF /* cutcalcdb.sqlite */,
-				18B671A218DC496C0059CDFF /* GreyPice.png */,
-				18B671A318DC496C0059CDFF /* RedPice.png */,
-				18B6718E18DC41ED0059CDFF /* SideB.png */,
-				18B6718F18DC41ED0059CDFF /* SlotB.png */,
-				18B6719018DC41ED0059CDFF /* SideH.png */,
-				18B6719118DC41ED0059CDFF /* SlotH.png */,
-				18B6719218DC41ED0059CDFF /* SideG.png */,
+				18D969F918E3F33D00CCA3C6 /* SideB.png */,
+				18D969FA18E3F33D00CCA3C6 /* SideG.png */,
+				18D969FB18E3F33D00CCA3C6 /* SideH.png */,
+				18D969FC18E3F33D00CCA3C6 /* SlotB.png */,
+				18D969FD18E3F33D00CCA3C6 /* SlotH.png */,
 				18B6719318DC41ED0059CDFF /* SlotG.png */,
 			);
 			name = Resources;
@@ -300,23 +294,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				18A651CD18D6B86D00DD012C /* Images.xcassets in Resources */,
+				18D96A0018E3F33D00CCA3C6 /* SideH.png in Resources */,
+				18D969F818E3F2AF00CCA3C6 /* searchProduct.png in Resources */,
 				18BF761318DA9BD700462EDF /* ViewController.xib in Resources */,
 				18BF761A18DAA2C600462EDF /* CalculationViewController.xib in Resources */,
-				18B6719518DC41ED0059CDFF /* SlotB.png in Resources */,
 				18B671A718DC5E5F0059CDFF /* cutcalcdb.sqlite in Resources */,
-				18B6719618DC41ED0059CDFF /* SideH.png in Resources */,
+				18D96A0218E3F33D00CCA3C6 /* SlotH.png in Resources */,
 				18BF761518DA9E6C00462EDF /* ViewControllerPad.xib in Resources */,
-				18BE72E318E29C92002CFE72 /* searchProduct.png in Resources */,
 				18B6719918DC41ED0059CDFF /* SlotG.png in Resources */,
-				18B6719818DC41ED0059CDFF /* SideG.png in Resources */,
-				18B671A418DC496C0059CDFF /* GreyPice.png in Resources */,
 				1800B02D18E1AAAB005D3B0F /* Slider11.png in Resources */,
-				18B6719418DC41ED0059CDFF /* SideB.png in Resources */,
 				18B671AF18DC69E60059CDFF /* box.png in Resources */,
+				18D969FF18E3F33D00CCA3C6 /* SideG.png in Resources */,
 				1800B02718E18CAD005D3B0F /* Thumb.png in Resources */,
-				18B6719718DC41ED0059CDFF /* SlotH.png in Resources */,
-				18B671A518DC496C0059CDFF /* RedPice.png in Resources */,
 				18A651BC18D6B86D00DD012C /* InfoPlist.strings in Resources */,
+				18D969FE18E3F33D00CCA3C6 /* SideB.png in Resources */,
+				18D96A0118E3F33D00CCA3C6 /* SlotB.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -73,8 +73,13 @@ sqlite3 *compiledatabase;
             {
                 for (int i=0; i<1; i++)
                 {
-                    //NSLog(@"log %@",[NSString stringWithUTF8String:(char *)sqlite3_column_text(SqliteStatement, i)]);
-                    [fluteDetailsArr addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(SqliteStatement, i)]];
+                    @try {
+                        [fluteDetailsArr addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(SqliteStatement, i)]];
+                    }
+                    @catch (NSException *exception) {
+                        NSLog(@"exception %@",exception.reason);
+                    }
+                   
                 }
             }
             //NSLog(@"flute  %@",fluteDetailsArr);
@@ -94,7 +99,8 @@ sqlite3 *compiledatabase;
     
     NSString *sql_str;
     
-    NSLog(@"millsID %@ mtypeID %@ material %@ diameter %@ fluteCount %@",millsID,typeID,matId,dia,fCount);
+    //NSLog(@"millsID %@ typeID%@ matId%@ dia%@ fCount%@",millsID,typeID,matId,dia,fCount);
+    
    
     NSMutableArray *sliderDetailsArr=[[NSMutableArray alloc]init];
     //millsIDstr=@"2";

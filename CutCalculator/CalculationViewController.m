@@ -93,7 +93,7 @@
     
     workMaterialArr=[NSArray arrayWithObjects:@"Cast Iron",@"Carbon Steel, Alloy Steel – 750N/mm2",@"Carbon Steel, Alloy Steel – 30 HRC",@"Pre-hardened Steel, Pre-heated Steel – 40 HRC",@"Stainless Steel",@"Aluminum Alloy",@"Silicoaluminum Si<=10%", nil];
     
-    fluterCntArr=[NSArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5",@"6", nil];
+    fluterCntArr=[NSArray arrayWithObjects:@"1.0",@"2.0",@"3.0",@"4.0",@"5.0",@"6.0",@"7.0",@"8.0", nil];
     
     diaArr=[NSArray arrayWithObjects:@"0.5",@"0.4",@"0.6",@"0.8",@"0.25",@"0.45", nil];
 
@@ -261,7 +261,13 @@
 }
 
 -(void)unHideobjects{
+    
+    workMaterialTxtFld.text=@"";
+    diaTxtFld.text=@"";
+    fluterCntTxtFld.text=@"";
+    
     //hide images and slider
+    depthOfCutSliderLbl.hidden=FALSE;
     depthOfCutSlider.hidden=FALSE;
     cuttingSpeedSlider.hidden=FALSE;
     revSlider.hidden=FALSE;
@@ -276,10 +282,13 @@
     }
     
     if ([millsID isEqualToString:@"2"]) {
+        lblFluterCnt.hidden=TRUE;
+        fluterCntTxtFld.hidden=TRUE;
         depthOfCutSlider.hidden=TRUE;
         zeroLblDOC.hidden=TRUE;
         maxLblDOC.hidden=TRUE;
         depthOfCutSliderLbl.hidden=TRUE;
+        lblDepthOfCut.hidden=TRUE;
     }
 }
 
@@ -508,7 +517,6 @@
     switch (selectedTextField) {
         case 1:{
             typeTxtFld.text=strSelected;
-            [self unHideobjects];
             if ([typeTxtFld.text isEqualToString:@"2 Flutes Long Neck Short Flute End Mill"]) {
                 workMaterialArr=[NSArray arrayWithObjects:@"Carbon Steel, Alloy Steel – 750N/mm2",@"Carbon Steel, Alloy Steel – 30 HRC",@"Pre-hardened Steel, Pre-heated Steel – 40 HRC", nil];
                 millsID=@"1";
@@ -535,12 +543,11 @@
                 zeroLblCS.frame=CGRectMake(10, lblCuttingSpeed.frame.origin.y+50, 300, 15);
                 maxLblRev.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblRev.frame.origin.y+50, 50, 15);
                 maxLblCS.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblCuttingSpeed.frame.origin.y+50, 50, 15);
-                
-                
             }
             else
             {
                 millsID=@"2";
+                mTypeID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
 
                 workMaterialArr=[NSArray arrayWithObjects:@"Cast Iron",@"Carbon Steel, Alloy Steel – 750N/mm2",@"Carbon Steel, Alloy Steel – 30 HRC",@"Pre-hardened Steel, Pre-heated Steel – 40 HRC",@"Stainless Steel",@"Aluminum Alloy",@"Silicoaluminum Si<=10%", nil];
                 depthOfCutSlider.hidden=TRUE;
@@ -566,6 +573,8 @@
                 maxLblRev.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblRev.frame.origin.y+50, 50, 15);
                 maxLblCS.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblCuttingSpeed.frame.origin.y+58, 50, 15);
             }
+            [self unHideobjects];
+
 
             if ([strSelected isEqualToString:@"2 flutes drill end mill"]||[strSelected isEqualToString:@"Micro-diameter drill"]||[strSelected isEqualToString:@"High-speed drill"]) {
                 [imgViewSide setImage:[UIImage imageNamed:@"SideG.png"]];
@@ -583,18 +592,57 @@
         case 2:
         {
             workMaterialTxtFld.text=strSelected;
+            fluterCntTxtFld.text=@"";
             materialID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
+            
+            if (![diaTxtFld.text isEqualToString:@""]&&![typeTxtFld.text isEqualToString:@""] ){
+                
+                if (![millsID isEqualToString:@"1"]) {
+                    
+                    finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
+                    
+                    if (finalSliderValuesArr.count!=0) {
+                        revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
+                        cuttingSpeedSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;
+                        
+                        revSlider.value=[[finalSliderValuesArr objectAtIndex:0] floatValue];
+                        cuttingSpeedSlider.value=[[finalSliderValuesArr objectAtIndex:1] floatValue];
+                        
+                        revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
+                        cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
+                        
+                        revSlider.userInteractionEnabled=YES;
+                        cuttingSpeedSlider.userInteractionEnabled=YES;
+                        
+                        modeLbl.text=@"Optimum mode";
+                        modeLbl.textColor=[UIColor greenColor];
+                    }
+                    else{
+                        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"MessageO" message:@"Invalid Entry" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                        [alert show];
+                        workMaterialTxtFld.text=@"";
+                        
+                    }
+                    
+                    
+                }
+            }
+            else{
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"MessageO" message:@"Please enter appropriate fields" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                [alert show];
+            }
             //diaArr=[dbAccess fetchDiaArr:millsID materialID:materialID mtypeID:mTypeID];
             break;
         }
         case 3:
         {
             fluterCntTxtFld.text=strSelected;
-            materialID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
-            
+            //materialID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             
             if (![diaTxtFld.text isEqualToString:@""]&&![typeTxtFld.text isEqualToString:@""] && ![workMaterialTxtFld.text isEqualToString:@""]){
+                
                 finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
+                
                 if (finalSliderValuesArr.count!=0) {
                     NSLog(@"finalSliderValuesArr %@",finalSliderValuesArr);
                     
@@ -625,6 +673,7 @@
                 else{
                     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Invalid entry" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
                     [alert show];
+                    fluterCntTxtFld.text=@"";
                 }
                 
                 
@@ -640,12 +689,11 @@
         case 4:
         {
             diaTxtFld.text=strSelected;
-            materialID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
             
             if (![materialID isEqualToString:@""]||[millsID isEqualToString:@""]) {
                fluterCntArr=[dbAccess fetchFluteArr:millsID diameter:strSelected mtypeID:mTypeID material:materialID];
                 if (fluterCntArr.count==0) {
-                    fluterCntArr=[NSArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5",@"6", nil];
+                    fluterCntArr=[NSArray arrayWithObjects:@"1.0",@"2.0",@"3.0",@"4.0",@"5.0",@"6.0",@"7.0",@"8.0", nil];
                 }
             }
             else
@@ -656,40 +704,8 @@
 
             
             
-            if (![diaTxtFld.text isEqualToString:@""]&&![typeTxtFld.text isEqualToString:@""] && ![workMaterialTxtFld.text isEqualToString:@""]){
-            if (![millsID isEqualToString:@"1"]) {
-               
-                    finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
-                
-                if (finalSliderValuesArr.count!=0) {
-                    revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]*2;
-                    cuttingSpeedSlider.maximumValue= [[finalSliderValuesArr objectAtIndex:1] floatValue]*2;
-                    
-                    revSlider.value=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
-                    cuttingSpeedSlider.value=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;                NSLog(@"finalSliderValuesArr %@",finalSliderValuesArr);
-                    
-                    revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
-                    cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
-                    
-                    revSlider.userInteractionEnabled=YES;
-                    cuttingSpeedSlider.userInteractionEnabled=YES;
-                    
-                    modeLbl.text=@"Optimum mode";
-                    modeLbl.textColor=[UIColor greenColor];
-                }
-                else{
-                    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"MessageO" message:@"Invalid Entry" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-                    [alert show];
-
-                }
-                    
-                
-                }
-            }
-            else{
-                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"MessageO" message:@"Please enter appropriate fields" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-                [alert show];
-            }
+           // if (![diaTxtFld.text isEqualToString:@""]&&![typeTxtFld.text isEqualToString:@""] && ![workMaterialTxtFld.text isEqualToString:@""]){
+        
             break;
         }
         default:
