@@ -15,6 +15,8 @@
 @class DBModel;
 @interface CalculationViewController : UIViewController<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
+    UILabel *recommendLblrev,*recommendLblCuttingSpeed,*recommendLblDOC;
+    
     UILabel *lblType,*lblDia,*lblShapeOfCut,*lblWorkMaterial,*lblFluterCnt,*lblDepthOfCut,*lblRev,*lblCuttingSpeed,*productNolbl;
     
     UITextField *typeTxtFld,*diaTxtFld,*workMaterialTxtFld,*fluterCntTxtFld;

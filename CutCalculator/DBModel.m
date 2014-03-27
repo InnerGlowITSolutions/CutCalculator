@@ -59,6 +59,7 @@ sqlite3 *compiledatabase;
     NSMutableArray *fluteDetailsArr=[[NSMutableArray alloc]init];
     
     NSString *sql_str;
+    NSLog(@"millsID %@ dia%@ typeID%@ matId%@",millsID,dia,typeID,matId);
     
     
     //sql_str = [NSString stringWithFormat:@"Select diameter from side_table Where millsid=%d, materialid=%d,mtypeid=%d",millsID,matID,typrID];
@@ -133,5 +134,43 @@ sqlite3 *compiledatabase;
     }
     return sliderDetailsArr;
 }
+
+-(NSMutableArray *)fetchDiameterArr:(NSString *)millsID mtypeID:(NSString *)typrID
+{
+    app_delegate=(AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    NSMutableArray *diaDetailsArr=[[NSMutableArray alloc]init];
+    
+    NSString *sql_str;
+    
+    //sql_str = [NSString stringWithFormat:@"Select diameter from side_table Where millsid=%d, materialid=%d,mtypeid=%d",millsID,matID,typrID];
+    sql_str = [NSString stringWithFormat:@"Select diameter from side_table Where millsid=%@ AND mtypeid=%@",millsID,typrID];
+    
+    if (sqlite3_open([[app_delegate appdDatabasePath] UTF8String], &compiledatabase) == SQLITE_OK){
+        const char *sqlQuery_Select = (char *)[sql_str UTF8String];
+        if (sqlite3_prepare_v2(compiledatabase, sqlQuery_Select, -1, &SqliteStatement, NULL)==SQLITE_OK)
+        {
+            NSMutableSet *setDia=[[NSMutableSet alloc]init];
+            //int count= sqlite3_column_count(SqliteStatement);
+            while(sqlite3_step(SqliteStatement) == SQLITE_ROW)
+            {
+                for (int i=0; i<1; i++)
+                {
+                    //NSLog(@"log %@",[NSString stringWithUTF8String:(char *)sqlite3_column_text(SqliteStatement, i)]);
+                    [setDia addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(SqliteStatement, i)]];
+                }
+            }
+            //NSLog(@"set dia %@",setDia);
+            for (NSString *obj in setDia) {
+                [diaDetailsArr addObject:obj];
+            }
+        }
+        else{
+            NSLog(@"Error while reading Employee Name -->%s",sqlite3_errmsg(compiledatabase));
+        }
+    }
+    return diaDetailsArr;
+}
+
 
 @end

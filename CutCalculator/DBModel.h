@@ -29,6 +29,7 @@
 -(NSMutableArray *)fetchFluteArr:(NSString *)millsID diameter:(NSString *)dia mtypeID:(NSString *)typeID material:(NSString *)matId;
 -(NSMutableArray *)fetchSliderValues:(NSString *)millsID mtypeID:(NSString *)typeID material:(NSString *)matId diameter:(NSString *)dia fluteCount:(NSString *)fCount;
 
+-(NSMutableArray *)fetchDiameterArr:(NSString *)millsID mtypeID:(NSString *)typrID;
 
 
 
