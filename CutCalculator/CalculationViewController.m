@@ -16,6 +16,7 @@
 -(void)depthOfCutSlider;
 -(void)cuttingSpeedSlider;
 -(void)unHideobjects;
+-(NSArray *)orderTheArray:(NSArray *)arr;
 
 @end
 
@@ -69,7 +70,7 @@
     dbAccess=[[DBModel alloc]init];
     
     UINavigationBar *navBar=[[UINavigationBar alloc]init];
-    [navBar setFrame:CGRectMake(0,0,CGRectGetWidth(self.view.frame),40)];
+    [navBar setFrame:CGRectMake(0,0,CGRectGetWidth(self.view.frame),35)];
     [navBar setBackgroundColor:[UIColor blueColor]];
     
     UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Language" style:UIBarButtonItemStylePlain target:self action:@selector(languageSel)];
@@ -95,7 +96,7 @@
     fluterCntArr=[NSArray arrayWithObjects:@"4.0",@"5.0",@"6.0",@"7.0",@"8.0", nil];
     
     diaArr=[NSArray arrayWithObjects:@"0.5",@"0.4",@"0.6",@"0.8",@"0.25",@"0.45", nil];
-
+    [self orderTheArray:diaArr];
     
     //labels
     lblType=[[UILabel alloc]init];
@@ -106,22 +107,26 @@
     lblDepthOfCut=[[UILabel alloc]init];
     lblRev=[[UILabel alloc]init];
     lblCuttingSpeed=[[UILabel alloc]init];
-    
+    lblWidthOfCutSlider=[[UILabel alloc]init];
+
     //sliderLbls
-    depthOfCutSliderLbl=[[UILabel alloc]init];
-    revSliderLbl=[[UILabel alloc]init];
-    cutSpeedSliderLbl=[[UILabel alloc]init];
+    //depthOfCutSliderLbl=[[UILabel alloc]init];
+    //revSliderLbl=[[UILabel alloc]init];
+    //cutSpeedSliderLbl=[[UILabel alloc]init];
     
     //recommend lbls
     recommendLblCuttingSpeed=[[UILabel alloc]init];
     recommendLblDOC=[[UILabel alloc]init];
     recommendLblrev=[[UILabel alloc]init];
+    recommendLblWOC=[[UILabel alloc]init];
     
     
     //range lbls
+    zeroLblWOC=[[UILabel alloc]init];
     zeroLblDOC=[[UILabel alloc]init];
     zeroLblRev=[[UILabel alloc]init];
     zeroLblCS=[[UILabel alloc]init];
+    maxLblWOC=[[UILabel alloc]init];
     maxLblDOC=[[UILabel alloc]init];
     maxLblRev=[[UILabel alloc]init];
     maxLblCS=[[UILabel alloc]init];
@@ -130,8 +135,8 @@
 
     productNolbl=[[UILabel alloc]init];
 
-    lblArr=[NSArray arrayWithObjects:lblType,lblDia,lblShapeOfCut,lblWorkMaterial,lblFluterCnt,lblDepthOfCut,lblRev,lblCuttingSpeed,depthOfCutSliderLbl,revSliderLbl,cutSpeedSliderLbl,zeroLblDOC,zeroLblRev,zeroLblCS,maxLblDOC,maxLblRev,maxLblCS,modeLbl,productNolbl,recommendLblrev,recommendLblCuttingSpeed,recommendLblDOC, nil];
-    NSArray *lblNamesArr=[NSArray arrayWithObjects:@"Type",@"Diameter",@"Shape of cut",@"Work Material",@"Fluter Count",@"Depth Of Cut",@"Rev (min)",@"Cutting Speed (mm/min)",@"0",@"0",@"0",@"0",@"0",@"0",@"max",@"max",@"max",@"Ineffective Mode",@"Product No.",@"",@"",@"", nil];
+    lblArr=[NSArray arrayWithObjects:lblType,lblDia,lblShapeOfCut,lblWorkMaterial,lblFluterCnt,lblDepthOfCut,lblRev,lblCuttingSpeed,zeroLblDOC,zeroLblRev,zeroLblCS,maxLblDOC,maxLblRev,maxLblCS,modeLbl,productNolbl,recommendLblrev,recommendLblCuttingSpeed,recommendLblDOC,recommendLblWOC,zeroLblWOC,maxLblWOC,lblWidthOfCutSlider, nil];
+    NSArray *lblNamesArr=[NSArray arrayWithObjects:@"Type",@"Diameter",@"Shape of cut",@"Work Material",@"Fluter Count",@"Depth Of Cut",@"Rev (min)",@"Cutting Speed (mm/min)",@"0",@"0",@"0",@"max",@"max",@"max",@"Ineffective Mode",@"Product No.",@"",@"",@"",@"",@"0",@"max",@"Width Of Cut", nil];
     for (int i=0; i<lblArr.count; i++)
     {
         [self lblCreation:[lblNamesArr objectAtIndex:i] label:[lblArr objectAtIndex:i]];
@@ -151,42 +156,53 @@
     }
     
     //UIslider
-    depthOfCutSlider=[[UISlider alloc]init];
-    depthOfCutSlider.minimumValue=0;
     
     
-    UIImage *bgImage = [UIImage imageNamed:@"Slider11.png"];
-    depthOfCutSlider.backgroundColor = [UIColor colorWithPatternImage:bgImage];
     
     UIImage *sliderTrackImage = [[UIImage imageNamed: @"box.png"] stretchableImageWithLeftCapWidth: 2 topCapHeight: 10];
     UIImage *sliderTrackImage2 = [[UIImage imageNamed: @"box.png"] stretchableImageWithLeftCapWidth: 2 topCapHeight: 10];
+    UIImage *sliderThumbImage = [[UIImage imageNamed: @"Thumb.png"] stretchableImageWithLeftCapWidth: 9 topCapHeight: 0];
+    
+    depthOfCutSlider=[[UISlider alloc]init];
+    depthOfCutSlider.minimumValue=0;
+    [depthOfCutSlider setThumbImage:sliderThumbImage
+                           forState:UIControlStateNormal];
+    UIImage *bgImage = [UIImage imageNamed:@"Slider11.png"];
+    depthOfCutSlider.backgroundColor = [UIColor colorWithPatternImage:bgImage];
     [depthOfCutSlider setMinimumTrackImage: sliderTrackImage forState: UIControlStateNormal];
     [depthOfCutSlider setMaximumTrackImage:sliderTrackImage2 forState: UIControlStateNormal];
-
-    UIImage *sliderThumbImage = [[UIImage imageNamed: @"Thumb.png"] stretchableImageWithLeftCapWidth: 9 topCapHeight: 0];
-    [depthOfCutSlider setThumbImage:sliderThumbImage
-                                forState:UIControlStateNormal];
-    
-    
     [depthOfCutSlider addTarget:self
-                      action:@selector(depthOfCutSlider)
-            forControlEvents:UIControlEventValueChanged];
+                         action:@selector(depthOfCutSlider)
+               forControlEvents:UIControlEventValueChanged];
     //depthOfCutSlider.value=0.7;
     depthOfCutSlider.userInteractionEnabled=NO;
     [self.view addSubview:depthOfCutSlider];
+
+    
+    
+    widthOfCutSlider=[[UISlider alloc]init];
+    widthOfCutSlider.minimumValue=0;
+    [widthOfCutSlider setThumbImage:sliderThumbImage
+                           forState:UIControlStateNormal];
+    widthOfCutSlider.backgroundColor = [UIColor colorWithPatternImage:bgImage];
+    [widthOfCutSlider setMinimumTrackImage: sliderTrackImage forState: UIControlStateNormal];
+    [widthOfCutSlider setMaximumTrackImage:sliderTrackImage2 forState: UIControlStateNormal];
+
+    [widthOfCutSlider addTarget:self
+                         action:@selector(widthOfCutSlider)
+               forControlEvents:UIControlEventValueChanged];
+    widthOfCutSlider.userInteractionEnabled=NO;
+    [self.view addSubview:widthOfCutSlider];
+    
+    
     
     revSlider=[[UISlider alloc]init];
     revSlider.minimumValue=0;
-    //revSlider.maximumValue=40000;
-    //revSlider.maximumTrackTintColor=[UIColor redColor];
-    //revSlider.minimumTrackTintColor=[UIColor greenColor];
-    
     revSlider.backgroundColor = [UIColor colorWithPatternImage:bgImage];
     [revSlider setMinimumTrackImage: sliderTrackImage forState: UIControlStateNormal];
     [revSlider setMaximumTrackImage:sliderTrackImage2 forState: UIControlStateNormal];
     [revSlider setThumbImage:sliderThumbImage
                            forState:UIControlStateNormal];
-    
     [revSlider addTarget:self
                          action:@selector(revSlider)
                forControlEvents:UIControlEventValueChanged];
@@ -221,14 +237,27 @@
     [self.view addSubview:imgViewSlot];
     imgViewSlot.userInteractionEnabled=YES;
     
+    lineView = [[UIView alloc]init];
+    lineView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:lineView];
+    
+    //Drill image
+    drillImage = [[UIImageView alloc]init];
+    drillImage.image = [UIImage imageNamed:@"drill.png"];
+    [self.view addSubview:drillImage];
+   // drillImage.userInteractionEnabled=YES;
+
+    
     //hide images and slider
+    widthOfCutSlider.hidden=TRUE;
     depthOfCutSlider.hidden=TRUE;
     cuttingSpeedSlider.hidden=TRUE;
     revSlider.hidden=TRUE;
 
     imgViewSlot.hidden=TRUE;
     imgViewSide.hidden=TRUE;
-
+    drillImage.hidden=TRUE;
+    lineView.hidden=TRUE;
 
     //uitableview
     dropDownTblView = [[UITableView alloc] initWithFrame:
@@ -245,35 +274,58 @@
     searchBar=[[UISearchBar alloc]init];
     searchBar.delegate=self;
 	[searchBar setTintColor:[UIColor blackColor]];
-    [self.searchBar setSearchFieldBackgroundImage:[UIImage imageNamed:@"searchProduct.png"] forState:UIControlStateNormal];
+    //[self.searchBar setSearchFieldBackgroundImage:[UIImage imageNamed:@"searchProduct.png"] forState:UIControlStateNormal];
 	[self.view addSubview:searchBar];
     searchBar.barTintColor = [UIColor whiteColor];
-
-    [searchBar setTranslucent:NO];
+    searchBar.barStyle = UISearchBarStyleDefault;
+    //[self.searchBar setSearchBarStyle:UISegmentedControlSegmentCenter];
+    searchBar.placeholder=@"Product";
+    [searchBar setTranslucent:YES];
     [self.searchBar setImage:[UIImage imageNamed:@"box.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     [self.searchBar setSearchTextPositionAdjustment:UIOffsetMake(7, 0)];
-
-    //[self.searchBar setBackgroundImage:[UIImage imageNamed:@"searchProduct.png"]];
+    
+    UITextField *txfSearchField = [searchBar valueForKey:@"_searchField"];
+    [txfSearchField setBackgroundColor:[UIColor clearColor]];
+    [txfSearchField setBorderStyle:UITextBorderStyleRoundedRect];
+    txfSearchField.layer.borderWidth = 0.5f;
+    txfSearchField.layer.cornerRadius = 5.0f;
+    txfSearchField.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    UILabel *magnifyingGlass = [[UILabel alloc] init];
+    [magnifyingGlass setText:[[NSString alloc] initWithUTF8String:"\xF0\x9F\x94\x8D"]];
+    [magnifyingGlass sizeToFit];
+    [txfSearchField setLeftView:magnifyingGlass];
+    [txfSearchField setLeftViewMode:UITextFieldViewModeAlways];
+   
     //frame setting for view objects
     [self settingFramesForUI];
-    depthOfCutSliderLbl.font = [UIFont fontWithName:@"Calibri" size:10];
-    revSliderLbl.font = [UIFont fontWithName:@"Calibri" size:10];
-    cutSpeedSliderLbl.font = [UIFont fontWithName:@"Calibri" size:10];
+    
+    //depthOfCutSliderLbl.font = [UIFont fontWithName:@"Calibri" size:10];
+    //revSliderLbl.font = [UIFont fontWithName:@"Calibri" size:10];
+    //cutSpeedSliderLbl.font = [UIFont fontWithName:@"Calibri" size:10];
     modeLbl.font = [UIFont fontWithName:@"Calibri" size:10];
     modeLbl.textColor=[UIColor grayColor];
     recommendLblrev.font = [UIFont fontWithName:@"Calibri" size:10];
     recommendLblDOC.font = [UIFont fontWithName:@"Calibri" size:10];
     recommendLblCuttingSpeed.font = [UIFont fontWithName:@"Calibri" size:10];
-
-
+    recommendLblWOC.font=[UIFont fontWithName:@"Calibri" size:10];
 }
 
--(void)unHideobjects{
+-(void)unHideobjects
+{
     
     workMaterialTxtFld.text=@"";
     diaTxtFld.text=@"";
     fluterCntTxtFld.text=@"";
+    modeLbl.text=@"";
+
+    [imgViewSide setImage:[UIImage imageNamed:@"SideB.png"]];
+    [imgViewSlot setImage:[UIImage imageNamed:@"SlotB.png"]];
+    Side=NO;
+    Slot=NO;
     
+    
+    widthOfCutSlider.userInteractionEnabled=FALSE;
     cuttingSpeedSlider.userInteractionEnabled=FALSE;
     depthOfCutSlider.userInteractionEnabled=FALSE;
     revSlider.userInteractionEnabled=FALSE;
@@ -281,18 +333,22 @@
     cuttingSpeedSlider.value=0;
     depthOfCutSlider.value=0;
     revSlider.value=0;
+    widthOfCutSlider.value=0;
     
-    cutSpeedSliderLbl.text=@"0";
-    depthOfCutSliderLbl.text=@"0";
-    revSliderLbl.text=@"0";
+    //cutSpeedSliderLbl.text=@"0";
+    //depthOfCutSliderLbl.text=@"0";
+    //revSliderLbl.text=@"0";
     
     //hide images and slider
-    depthOfCutSliderLbl.hidden=FALSE;
+    widthOfCutSlider.hidden=FALSE;
+    
     depthOfCutSlider.hidden=FALSE;
     cuttingSpeedSlider.hidden=FALSE;
     revSlider.hidden=FALSE;
     imgViewSlot.hidden=FALSE;
     imgViewSide.hidden=FALSE;
+    drillImage.hidden=FALSE;
+    lineView.hidden=FALSE;
     
     for (UILabel *lbl in lblArr) {
         lbl.hidden=FALSE;
@@ -301,26 +357,40 @@
         txtfld.hidden=FALSE;
     }
     
+    recommendLblWOC.hidden=YES;
     recommendLblrev.hidden=YES;
     recommendLblCuttingSpeed.hidden=YES;
     recommendLblDOC.hidden=YES;
     
-    if ([millsID isEqualToString:@"2"]) {
+    if ([millsID isEqualToString:@"2"])
+    {
         recommendLblDOC.hidden=TRUE;
+        recommendLblWOC.hidden=TRUE;
+
         lblFluterCnt.hidden=TRUE;
         fluterCntTxtFld.hidden=TRUE;
         depthOfCutSlider.hidden=TRUE;
+        
         zeroLblDOC.hidden=TRUE;
         maxLblDOC.hidden=TRUE;
-        depthOfCutSliderLbl.hidden=TRUE;
+        
+        zeroLblWOC.hidden=TRUE;
+        maxLblWOC.hidden=TRUE;
+        
         lblDepthOfCut.hidden=TRUE;
+        lblWidthOfCutSlider.hidden=TRUE;
+        widthOfCutSlider.hidden=TRUE;
     }
 }
 
 #pragma mark- slider
 -(void)depthOfCutSlider{
-    depthOfCutSliderLbl.text=[NSString stringWithFormat:@"%.3f",depthOfCutSlider.value];
+    //depthOfCutSliderLbl.text=[NSString stringWithFormat:@"%.3f",depthOfCutSlider.value];
+}
 
+-(void)widthOfCutSlider{
+    NSLog(@"widthOfCutSlider");
+    
 }
 
 -(void)revSlider{
@@ -334,8 +404,8 @@
     int speedCal=calFactor/100;
 
     [cuttingSpeedSlider setValue:revCal*speedCal animated:YES];
-    revSliderLbl.text=[NSString stringWithFormat:@"%.1f",revSlider.value];
-    cutSpeedSliderLbl.text=[NSString stringWithFormat:@"%.1f",cuttingSpeedSlider.value];
+    //revSliderLbl.text=[NSString stringWithFormat:@"%.1f",revSlider.value];
+    //cutSpeedSliderLbl.text=[NSString stringWithFormat:@"%.1f",cuttingSpeedSlider.value];
     
     ////////////
     UIImageView *thumbSlider=[revSlider.subviews lastObject];
@@ -375,8 +445,8 @@
      int speedCal=calFactor/100;
     
      [revSlider setValue:revCal*speedCal animated:YES];
-     revSliderLbl.text=[NSString stringWithFormat:@"%.1f",revSlider.value];
-     cutSpeedSliderLbl.text=[NSString stringWithFormat:@"%.1f",cuttingSpeedSlider.value];
+     //revSliderLbl.text=[NSString stringWithFormat:@"%.1f",revSlider.value];
+     //cutSpeedSliderLbl.text=[NSString stringWithFormat:@"%.1f",cuttingSpeedSlider.value];
     
     ////////////
     UIImageView *thumbSlider=[revSlider.subviews lastObject];
@@ -441,6 +511,11 @@
 {
     fromtxtFld.borderStyle = UITextBorderStyleRoundedRect;
     
+    fromtxtFld.layer.borderWidth = 1.0f;
+    fromtxtFld.layer.cornerRadius = 5.0f;
+    fromtxtFld.layer.borderColor = [UIColor grayColor].CGColor;
+
+    
     //fromtxtFld.layer.borderColor=[[UIColor grayColor] CGColor];
     //fromtxtFld.layer.borderWidth=1.0f;
     //fromtxtFld.layer.shadowColor=[[UIColor grayColor]CGColor];
@@ -486,49 +561,70 @@
 
 -(void)settingFramesForUI
 {
+
     //uisearchbar
-    searchBar.frame=CGRectMake(120, 85, 180, 30);
+    searchBar.frame=CGRectMake(123, 68.5, 175, 30);
     
     //UIlabel frames
-    productNolbl.frame=CGRectMake(10, 85, 100, 30);
-    lblType.frame=CGRectMake(10, 48, 42, 30);
-    lblDia.frame=CGRectMake(10, 130, 100, 30);
-    lblShapeOfCut.frame=CGRectMake(10, 175, 150, 30);
-    lblWorkMaterial.frame=CGRectMake(10, 265, 100, 30);
-    lblFluterCnt.frame=CGRectMake(10, 310, 100, 30);
-    lblDepthOfCut.frame=CGRectMake(10, 355, 150, 30);
-    lblRev.frame=CGRectMake(10, 420, 80, 30);
-    lblCuttingSpeed.frame=CGRectMake(10, 485, 180, 30);
+    lblType.frame=CGRectMake(10, 42, 42, 30);
+    productNolbl.frame=CGRectMake(10, 70, 100, 30);
+    lblDia.frame=CGRectMake(10, 98, 100, 30);
+    lblShapeOfCut.frame=CGRectMake(10, 126, 150, 30);
+    lblWorkMaterial.frame=CGRectMake(10, 220, 100, 30);
+    lblFluterCnt.frame=CGRectMake(10, 250, 100, 30);
+   
+    //lbl  uislider
+    lblWidthOfCutSlider.frame=CGRectMake(10, 330, 150, 30);
+    lblDepthOfCut.frame=CGRectMake(10, 385, 150, 30);
+    lblRev.frame=CGRectMake(10, 440, 80, 30);
+    lblCuttingSpeed.frame=CGRectMake(10, 497, 180, 30);
     
     //UIslider frames
-    cuttingSpeedSlider.frame=CGRectMake(10, 520, 300, 10);
-    depthOfCutSlider.frame=CGRectMake(10, 388, 300, 10);
-    revSlider.frame=CGRectMake(10, 453, 300, 10);
+    widthOfCutSlider.frame=CGRectMake(10, 361, 300, 10);
+    depthOfCutSlider.frame=CGRectMake(10, 418, 300, 10);
+    revSlider.frame=CGRectMake(10, 453, 320, 10);
+    cuttingSpeedSlider.frame=CGRectMake(10, 530, 300, 10);
     
     modeLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)/2-30, CGRectGetHeight(self.view.frame)-20, 150, 15);
 
     //Slider Value labels
-    depthOfCutSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 355, 50, 30);
-    revSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 420, 50, 30);
-    cutSpeedSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 485, 50, 30);
+    //depthOfCutSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 355, 50, 30);
+    //revSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 420, 50, 30);
+    //cutSpeedSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 485, 50, 30);
     
     //range lbls
+    zeroLblWOC.frame=CGRectMake(10, lblWidthOfCutSlider.frame.origin.y+50, 20, 15);
     zeroLblDOC.frame=CGRectMake(10, lblDepthOfCut.frame.origin.y+50, 20, 15);
     zeroLblRev.frame=CGRectMake(10, lblRev.frame.origin.y+50, 300, 15);
     zeroLblCS.frame=CGRectMake(10, lblCuttingSpeed.frame.origin.y+58, 300, 15);
-    maxLblDOC.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblDepthOfCut.frame.origin.y+50, 50, 15);
+    maxLblDOC.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblWidthOfCutSlider.frame.origin.y+50, 50, 15);
+    maxLblWOC.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblDepthOfCut.frame.origin.y+50, 50, 15);
     maxLblRev.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblRev.frame.origin.y+50, 50, 15);
     maxLblCS.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblCuttingSpeed.frame.origin.y+58, 50, 15);
 
     //UItextfield frames
-    typeTxtFld.frame=CGRectMake(130, 48, 160, 30);
-    diaTxtFld.frame=CGRectMake(130, 130, 160, 30);
-    workMaterialTxtFld.frame=CGRectMake(130, 265, 160, 30);
-    fluterCntTxtFld.frame=CGRectMake(130, 310, 100, 30);
+    typeTxtFld.frame=CGRectMake(130, 42, 160, 25);
+    diaTxtFld.frame=CGRectMake(130, 100, 160, 25);
+    workMaterialTxtFld.frame=CGRectMake(130, 222, 160, 25);
+    
+    fluterCntTxtFld.frame=CGRectMake(130, 252, 100, 25);
+    
+    //Line view
+    lineView.frame=CGRectMake(10, 285, self.view.bounds.size.width-20, 2);
     
     //Imageview frames
-    imgViewSide.frame=CGRectMake(60, 193,  70, 70);
-    imgViewSlot.frame=CGRectMake(170, 193, 70, 70);
+    drillImage.frame=CGRectMake(10, 300, 124,19);
+    imgViewSide.frame=CGRectMake(60, 150,  70, 70);
+    imgViewSlot.frame=CGRectMake(170, 150, 70, 70);
+}
+
+-(NSArray *)orderTheArray:(NSArray *)arr{
+    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
+    NSArray *descriptors=[NSArray arrayWithObject: descriptor];
+    NSArray *orderedArr=[arr sortedArrayUsingDescriptors:descriptors];
+    NSLog(@"new arr %@",orderedArr);
+    return orderedArr;
+    
 }
 
 #pragma mark- UITableview Delegate
@@ -579,28 +675,35 @@
     switch (selectedTextField) {
         case 1:{
             typeTxtFld.text=strSelected;
+            searchBar.text=@"";
             if ([typeTxtFld.text isEqualToString:@"2 Flutes Long Neck Short Flute End Mill"]) {
                 workMaterialArr=[NSArray arrayWithObjects:@"Carbon Steel, Alloy Steel – 750N/mm2",@"Carbon Steel, Alloy Steel – 30 HRC",@"Pre-hardened Steel, Pre-heated Steel – 40 HRC", nil];
                 millsID=@"1";
                 mTypeID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
                 NSLog(@"%@",mTypeID);
+                lblWidthOfCutSlider.hidden=FALSE;
+                widthOfCutSlider.hidden=FALSE;
                 lblDepthOfCut.hidden=FALSE;
                 depthOfCutSlider.hidden=FALSE;
                 fluterCntTxtFld.hidden=FALSE;
                 lblFluterCnt.hidden=FALSE;
                 
-                depthOfCutSliderLbl.hidden=FALSE;
+                //depthOfCutSliderLbl.hidden=FALSE;
                 zeroLblDOC.hidden=FALSE;
                 maxLblDOC.hidden=FALSE;
                 
-                lblRev.frame=CGRectMake(10, 420, 80, 30);
-                lblCuttingSpeed.frame=CGRectMake(10, 485, 180, 30);
-                cuttingSpeedSlider.frame=CGRectMake(10, 520, 300, 10);
-                revSlider.frame=CGRectMake(10, 453, 300, 10);
+                zeroLblWOC.hidden=FALSE;
+                maxLblWOC.hidden=FALSE;
+
                 
+                lblRev.frame=CGRectMake(10, 440, 80, 30);
+                revSlider.frame=CGRectMake(10, 473, 300, 10);
+
+                lblCuttingSpeed.frame=CGRectMake(10, 497, 180, 30);
+                cuttingSpeedSlider.frame=CGRectMake(10, 530, 300, 10);
                 
-                revSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 420, 50, 30);
-                cutSpeedSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 485, 50, 30);
+                //revSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 420, 50, 30);
+                //cutSpeedSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, 485, 50, 30);
                                 zeroLblRev.frame=CGRectMake(10, lblRev.frame.origin.y+50, 300, 15);
                 zeroLblCS.frame=CGRectMake(10, lblCuttingSpeed.frame.origin.y+50, 300, 15);
                 maxLblRev.frame=CGRectMake(CGRectGetWidth(self.view.frame)-35, lblRev.frame.origin.y+50, 50, 15);
@@ -612,23 +715,26 @@
                 mTypeID=[NSString stringWithFormat:@"%ld",(long)indexPath.row+1];
 
                 workMaterialArr=[NSArray arrayWithObjects:@"Cast Iron",@"Carbon Steel, Alloy Steel – 750N/mm2",@"Carbon Steel, Alloy Steel – 30 HRC",@"Pre-hardened Steel, Pre-heated Steel – 40 HRC",@"Stainless Steel",@"Aluminum Alloy",@"Silicoaluminum Si<=10%", nil];
+                widthOfCutSlider.hidden=TRUE;
                 depthOfCutSlider.hidden=TRUE;
                 fluterCntTxtFld.hidden=TRUE;
                 lblFluterCnt.hidden=TRUE;
                 lblDepthOfCut.hidden=TRUE;
+                lblWidthOfCutSlider.hidden=TRUE;
                 
-                depthOfCutSliderLbl.hidden=TRUE;
+                //depthOfCutSliderLbl.hidden=TRUE;
                 zeroLblDOC.hidden=TRUE;
                 maxLblDOC.hidden=TRUE;
-                
+                maxLblWOC.hidden=TRUE;
+                zeroLblWOC.hidden=TRUE;
+
                 lblCuttingSpeed.frame=CGRectMake(10, 455, 180, 30);
                 cuttingSpeedSlider.frame=CGRectMake(10, 495, 300, 10);
                 lblRev.frame=CGRectMake(10, 340, 80, 30);
                 revSlider.frame=CGRectMake(10, 373, 300, 10);
                 
-                
-                revSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, lblRev.frame.origin.y, 50, 30);
-                cutSpeedSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, lblCuttingSpeed.frame.origin.y, 50, 30);
+                //revSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, lblRev.frame.origin.y, 50, 30);
+                //cutSpeedSliderLbl.frame=CGRectMake(CGRectGetWidth(self.view.frame)-45, lblCuttingSpeed.frame.origin.y, 50, 30);
                
                 zeroLblRev.frame=CGRectMake(10, lblRev.frame.origin.y+50, 50, 15);
                 zeroLblCS.frame=CGRectMake(10, lblCuttingSpeed.frame.origin.y+58, 50, 15);
@@ -675,6 +781,7 @@
                     finalSliderValuesArr=[dbAccess fetchSliderValues:millsID mtypeID:mTypeID material:materialID diameter:diaTxtFld.text fluteCount:fluterCntTxtFld.text];
                     
                     if (finalSliderValuesArr.count!=0) {
+                        
                         revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
                         cuttingSpeedSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;
                         
@@ -692,8 +799,8 @@
                         recommendLblrev.text=[NSString stringWithFormat:@"Recommended"];
                          ////////////////
                         
-                        revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
-                        cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
+                        //revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
+                        //cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
                         
                         revSlider.userInteractionEnabled=YES;
                         cuttingSpeedSlider.userInteractionEnabled=YES;
@@ -731,20 +838,33 @@
                     //revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]*2;
                     //cuttingSpeedSlider.maximumValue= [[finalSliderValuesArr objectAtIndex:1] floatValue]*2;
                     
+                    float woc=[diaTxtFld.text floatValue]*0.1;
+                    
+                    NSLog(@"woc %f",woc);
+                    
+                    NSLog(@"woc max  %f",woc+(woc/2));
+
+                    
+                    widthOfCutSlider.maximumValue=woc+(woc/2);
+                    
                     depthOfCutSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:2] floatValue]+([[finalSliderValuesArr objectAtIndex:2] floatValue])/2;
                     revSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:0] floatValue]+([[finalSliderValuesArr objectAtIndex:0] floatValue])/2;
                     cuttingSpeedSlider.maximumValue=[[finalSliderValuesArr objectAtIndex:1] floatValue]+([[finalSliderValuesArr objectAtIndex:1] floatValue])/2;
-                    
                     
                     depthOfCutSlider.value=[[finalSliderValuesArr objectAtIndex:2] floatValue];
                     
                     revSlider.value=[[finalSliderValuesArr objectAtIndex:0] floatValue];
                     cuttingSpeedSlider.value=[[finalSliderValuesArr objectAtIndex:1] floatValue];
+                    widthOfCutSlider.value=woc;
                     
                     ////////////////
                     recommendLblrev.hidden=NO;
                     recommendLblCuttingSpeed.hidden=NO;
                     recommendLblDOC.hidden=NO;
+                    recommendLblWOC.hidden=NO;
+                    
+                    recommendLblWOC.frame=CGRectMake(CGRectGetWidth(self.view.frame)/2+30, widthOfCutSlider.frame.origin.y+7, 100, 30);
+                    recommendLblWOC.text=[NSString stringWithFormat:@"%.3f",woc];
                     
                     recommendLblDOC.frame=CGRectMake(CGRectGetWidth(self.view.frame)/2+20, depthOfCutSlider.frame.origin.y+10, 100, 30);
                     recommendLblDOC.text=[NSString stringWithFormat:@"Recommended"];
@@ -757,9 +877,9 @@
                     ////////////////
 
                     
-                    depthOfCutSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:2]];
-                    revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
-                    cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
+                    //depthOfCutSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:2]];
+                    //revSliderLbl.text=[NSString stringWithFormat:@"%@",[finalSliderValuesArr objectAtIndex:0]];
+                    //cutSpeedSliderLbl.text=[NSString stringWithFormat:[finalSliderValuesArr objectAtIndex:1],[finalSliderValuesArr objectAtIndex:1]];
                     
                     revSlider.userInteractionEnabled=YES;
                     cuttingSpeedSlider.userInteractionEnabled=YES;
@@ -779,7 +899,6 @@
                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Message" message:@"Please enter appropriate fields" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
                 [alert show];
             }
-            
             
             break;
         }
@@ -950,11 +1069,17 @@
     {
         [imgViewSide setImage:[UIImage imageNamed:@"SideH.png"]];
         [imgViewSlot setImage:[UIImage imageNamed:@"SlotB.png"]];
+        Side=YES;
+        Slot=NO;
+
     }
     else if (touch.view == imgViewSlot){
         [imgViewSide setImage:[UIImage imageNamed:@"SideB.png"]];
         [imgViewSlot setImage:[UIImage imageNamed:@"SlotH.png"]];
+        Side=NO;
+        Slot=YES;
     }
+    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

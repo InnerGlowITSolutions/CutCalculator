@@ -15,9 +15,11 @@
 @class DBModel;
 @interface CalculationViewController : UIViewController<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
-    UILabel *recommendLblrev,*recommendLblCuttingSpeed,*recommendLblDOC;
+    BOOL Slot,Side;
     
-    UILabel *lblType,*lblDia,*lblShapeOfCut,*lblWorkMaterial,*lblFluterCnt,*lblDepthOfCut,*lblRev,*lblCuttingSpeed,*productNolbl;
+    UILabel *recommendLblrev,*recommendLblCuttingSpeed,*recommendLblDOC,*recommendLblWOC;
+    
+    UILabel *lblType,*lblDia,*lblShapeOfCut,*lblWorkMaterial,*lblFluterCnt,*lblDepthOfCut,*lblRev,*lblCuttingSpeed,*productNolbl,*lblWidthOfCutSlider;
     
     UITextField *typeTxtFld,*diaTxtFld,*workMaterialTxtFld,*fluterCntTxtFld;
     
@@ -27,15 +29,17 @@
     
     NSArray *millTypeArr,*workMaterialArr,*fluterCntArr,*diaArr;
     
-    UISlider *depthOfCutSlider,*revSlider,*cuttingSpeedSlider;
+    UISlider *depthOfCutSlider,*revSlider,*cuttingSpeedSlider,*widthOfCutSlider;
     
-    UILabel *depthOfCutSliderLbl,*revSliderLbl,*cutSpeedSliderLbl;
+    //UILabel *depthOfCutSliderLbl,*revSliderLbl,*cutSpeedSliderLbl;
     
-    UILabel *zeroLblDOC,*zeroLblRev,*zeroLblCS,*maxLblDOC,*maxLblRev,*maxLblCS;
+    UILabel *zeroLblDOC,*zeroLblRev,*zeroLblCS,*maxLblDOC,*maxLblRev,*maxLblCS,*maxLblWOC,*zeroLblWOC;
     
     UILabel *modeLbl;
     
-    UIImageView *imgViewSide,*imgViewSlot;    
+    UIImageView *imgViewSide,*imgViewSlot,*drillImage;
+    
+    UIView *lineView;
     
     int selectedTextField,searchcheck;
     

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1800B02718E18CAD005D3B0F /* Thumb1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1800B02418E18CAD005D3B0F /* Thumb1.png */; };
 		1800B02D18E1AAAB005D3B0F /* Slider111.png in Resources */ = {isa = PBXBuildFile; fileRef = 1800B02C18E1AAAB005D3B0F /* Slider111.png */; };
+		1831A82518E572500052057C /* drill.png in Resources */ = {isa = PBXBuildFile; fileRef = 1831A82418E572500052057C /* drill.png */; };
 		18A651B218D6B86D00DD012C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A651B118D6B86D00DD012C /* Foundation.framework */; };
 		18A651B418D6B86D00DD012C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A651B318D6B86D00DD012C /* CoreGraphics.framework */; };
 		18A651B618D6B86D00DD012C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A651B518D6B86D00DD012C /* UIKit.framework */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		1800B02418E18CAD005D3B0F /* Thumb1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumb1.png; sourceTree = "<group>"; };
 		1800B02C18E1AAAB005D3B0F /* Slider111.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Slider111.png; sourceTree = "<group>"; };
+		1831A82418E572500052057C /* drill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drill.png; sourceTree = "<group>"; };
 		18A651AE18D6B86D00DD012C /* CutCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CutCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A651B118D6B86D00DD012C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18A651B318D6B86D00DD012C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -208,6 +210,7 @@
 		18BF761B18DAF62E00462EDF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1831A82418E572500052057C /* drill.png */,
 				18D96A0318E42E2500CCA3C6 /* Calibri.ttf */,
 				18D969F718E3F2AF00CCA3C6 /* searchProduct.png */,
 				18D96A0518E443BD00CCA3C6 /* Slider11.png */,
@@ -302,6 +305,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1831A82518E572500052057C /* drill.png in Resources */,
 				18A651CD18D6B86D00DD012C /* Images.xcassets in Resources */,
 				18D969F818E3F2AF00CCA3C6 /* searchProduct.png in Resources */,
 				18D96A0418E42E2500CCA3C6 /* Calibri.ttf in Resources */,
